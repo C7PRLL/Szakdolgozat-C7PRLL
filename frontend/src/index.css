@@ -1,0 +1,19 @@
+/* index.css - Alaphelyzetbe állítás */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: dark; /* Sötét mód alapból */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1c1d26;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%; /* Ez volt a hiba, itt 1126px volt! */
+  margin: 0;
+  padding: 0;
+}
