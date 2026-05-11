@@ -296,24 +296,6 @@ export default function Login() {
           >
             Bejelentkezés Google-lel
           </button>
-
-          <button
-            type="button"
-            onClick={handleFacebookLogin}
-            style={{
-              width: '100%',
-              padding: '14px',
-              borderRadius: '10px',
-              border: '1px solid rgba(255,255,255,0.12)',
-              background: 'rgba(255,255,255,0.06)',
-              color: '#ffffff',
-              fontSize: '15px',
-              fontWeight: '600',
-              cursor: 'pointer',
-            }}
-          >
-            Bejelentkezés Facebookkal
-          </button>
         </div>
 
         <div
