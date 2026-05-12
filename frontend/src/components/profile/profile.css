@@ -1,0 +1,194 @@
+.profile-page {
+  min-height: 100vh;
+  padding: 110px 20px 40px 20px;
+  color: #ffffff;
+}
+
+.profile-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.profile-left {
+  display: grid;
+  gap: 20px;
+}
+
+.profile-panel {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.profile-user-card {
+  text-align: center;
+}
+
+.profile-avatar-image {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.profile-avatar-placeholder {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin: 0 auto 16px auto;
+  background: rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.profile-user-name {
+  margin: 0 0 6px 0;
+}
+
+.profile-user-email {
+  margin: 0 0 12px 0;
+  opacity: 0.8;
+  word-break: break-word;
+}
+
+.profile-admin-badge {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 14px;
+}
+
+.profile-title {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.profile-subtitle {
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+.profile-section {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.profile-bookings {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-section-title {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.profile-form-title {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.profile-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.profile-input,
+.profile-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
+.profile-input-small {
+  padding: 12px 14px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.profile-textarea {
+  resize: vertical;
+}
+
+.profile-file-input {
+  display: block;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.profile-button {
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.profile-button-full {
+  width: 100%;
+}
+
+.profile-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.profile-muted {
+  opacity: 0.8;
+  margin: 0;
+}
+
+.profile-booking-list {
+  display: grid;
+  gap: 12px;
+}
+
+.profile-booking-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.profile-booking-data {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.profile-divider {
+  margin: 32px 0;
+  opacity: 0.3;
+}
+
+@media (max-width: 850px) {
+  .profile-page {
+    padding: 100px 16px 40px 16px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}

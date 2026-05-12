@@ -1,24 +1,12 @@
 const express = require('express');
-
 const router = express.Router();
-
-const nodemailer = require('nodemailer');
 
 const { User, Booking } = require('../models');
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-
-  port: Number(process.env.SMTP_PORT),
-
-  secure: false,
-
-  auth: {
-    user: process.env.SMTP_USER,
-
-    pass: process.env.SMTP_PASS,
-  },
-});
+const {
+  sendBookingUpdatedByAdminEmail,
+  sendBookingDeletedByAdminEmail,
+} = require('../utils/mailer');
 
 function requireAdmin(req, res, next) {
   if (!req.user) {
@@ -33,39 +21,29 @@ function requireAdmin(req, res, next) {
 }
 
 // Összes user lekérése
-
 router.get('/users', requireAdmin, async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: [
         'id',
-
         'name',
-
         'email',
-
         'is_admin',
-
         'is_verified',
-
         'createdAt',
-
         'updatedAt',
       ],
-
       order: [['id', 'ASC']],
     });
 
     return res.json(users);
   } catch (err) {
     console.error('ADMIN USERS GET HIBA:', err);
-
     return res.status(500).json({ error: err.message });
   }
 });
 
 // User törlése
-
 router.delete('/users/:id', requireAdmin, async (req, res) => {
   try {
     const targetUserId = Number(req.params.id);
@@ -83,7 +61,9 @@ router.delete('/users/:id', requireAdmin, async (req, res) => {
     }
 
     await Booking.destroy({
-      where: { user_id: targetUserId },
+      where: {
+        user_id: targetUserId,
+      },
     });
 
     await user.destroy();
@@ -91,21 +71,17 @@ router.delete('/users/:id', requireAdmin, async (req, res) => {
     return res.json({ message: 'Felhasználó sikeresen törölve.' });
   } catch (err) {
     console.error('ADMIN USER DELETE HIBA:', err);
-
     return res.status(500).json({ error: err.message });
   }
 });
 
 // Összes foglalás lekérése
-
 router.get('/bookings', requireAdmin, async (req, res) => {
   try {
     const bookings = await Booking.findAll({
       order: [
         ['booking_date', 'ASC'],
-
         ['time_slot', 'ASC'],
-
         ['id', 'ASC'],
       ],
     });
@@ -113,13 +89,11 @@ router.get('/bookings', requireAdmin, async (req, res) => {
     return res.json(bookings);
   } catch (err) {
     console.error('ADMIN BOOKINGS GET HIBA:', err);
-
     return res.status(500).json({ error: err.message });
   }
 });
 
 // Foglalás módosítása
-
 router.put('/bookings/:id', requireAdmin, async (req, res) => {
   try {
     const { activity_type, booking_date, time_slot } = req.body;
@@ -136,14 +110,14 @@ router.put('/bookings/:id', requireAdmin, async (req, res) => {
       });
     }
 
-    const oldActivityType = booking.activity_type;
-    const oldBookingDate = booking.booking_date;
-    const oldTimeSlot = booking.time_slot;
+    const oldBooking = {
+      activity_type: booking.activity_type,
+      booking_date: booking.booking_date,
+      time_slot: booking.time_slot,
+    };
 
     booking.activity_type = activity_type;
-
     booking.booking_date = booking_date;
-
     booking.time_slot = time_slot;
 
     await booking.save();
@@ -152,36 +126,10 @@ router.put('/bookings/:id', requireAdmin, async (req, res) => {
 
     if (user && user.email) {
       try {
-        await transporter.sendMail({
-          from: process.env.SMTP_FROM,
-
-          to: user.email,
-
-          subject: 'Időpontfoglalás módosítása - F1 Academy',
-
-          html: `
-            <h2>Szia ${user.name}!</h2>
-
-            <p>Értesítünk, hogy az adminisztrátor módosította az időpontfoglalásodat.</p>
-
-            <p><strong>Korábbi foglalás részletei:</strong></p>
-
-            <ul>
-              <li><strong>Gokart típusa:</strong> ${oldActivityType}</li>
-              <li><strong>Dátum:</strong> ${oldBookingDate}</li>
-              <li><strong>Idősáv:</strong> ${oldTimeSlot}</li>
-            </ul>
-
-            <p><strong>Új foglalás részletei:</strong></p>
-
-            <ul>
-              <li><strong>Gokart típusa:</strong> ${activity_type}</li>
-              <li><strong>Dátum:</strong> ${booking_date}</li>
-              <li><strong>Idősáv:</strong> ${time_slot}</li>
-            </ul>
-
-            <p>Üdv,<br>F1 Academy</p>
-          `,
+        await sendBookingUpdatedByAdminEmail(user, oldBooking, {
+          activity_type,
+          booking_date,
+          time_slot,
         });
       } catch (emailErr) {
         console.error('ADMIN BOOKING UPDATE EMAIL HIBA:', emailErr);
@@ -190,18 +138,15 @@ router.put('/bookings/:id', requireAdmin, async (req, res) => {
 
     return res.json({
       message: 'Foglalás sikeresen módosítva.',
-
       booking,
     });
   } catch (err) {
     console.error('ADMIN BOOKING UPDATE HIBA:', err);
-
     return res.status(500).json({ error: err.message });
   }
 });
 
 // Foglalás törlése
-
 router.delete('/bookings/:id', requireAdmin, async (req, res) => {
   try {
     const booking = await Booking.findByPk(req.params.id);
@@ -212,37 +157,17 @@ router.delete('/bookings/:id', requireAdmin, async (req, res) => {
 
     const user = await User.findByPk(booking.user_id);
 
-    const deletedActivityType = booking.activity_type;
-    const deletedBookingDate = booking.booking_date;
-    const deletedTimeSlot = booking.time_slot;
+    const deletedBooking = {
+      activity_type: booking.activity_type,
+      booking_date: booking.booking_date,
+      time_slot: booking.time_slot,
+    };
 
     await booking.destroy();
 
     if (user && user.email) {
       try {
-        await transporter.sendMail({
-          from: process.env.SMTP_FROM,
-
-          to: user.email,
-
-          subject: 'Időpontfoglalás törlése - F1 Academy',
-
-          html: `
-            <h2>Szia ${user.name}!</h2>
-
-            <p>Értesítünk, hogy az adminisztrátor törölte az időpontfoglalásodat.</p>
-
-            <p><strong>Törölt foglalás részletei:</strong></p>
-
-            <ul>
-              <li><strong>Gokart típusa:</strong> ${deletedActivityType}</li>
-              <li><strong>Dátum:</strong> ${deletedBookingDate}</li>
-              <li><strong>Idősáv:</strong> ${deletedTimeSlot}</li>
-            </ul>
-
-            <p>Üdv,<br>F1 Academy</p>
-          `,
-        });
+        await sendBookingDeletedByAdminEmail(user, deletedBooking);
       } catch (emailErr) {
         console.error('ADMIN BOOKING DELETE EMAIL HIBA:', emailErr);
       }
@@ -251,7 +176,6 @@ router.delete('/bookings/:id', requireAdmin, async (req, res) => {
     return res.json({ message: 'Foglalás sikeresen törölve.' });
   } catch (err) {
     console.error('ADMIN BOOKING DELETE HIBA:', err);
-
     return res.status(500).json({ error: err.message });
   }
 });
