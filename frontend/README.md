@@ -1,16 +1,49 @@
-# React + Vite
+Projekt indítása
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Legyen egy MariaDB adatbázis kezelő rendszer telepítve, továbbá az adatbázisban alapértelmezetten root/root felhasználóval és jelszóval van konfigurálva a program.
+Továbbá legyen létrehozva egy f1academy nevű adatbázis.
+Ezek után a program legenerálj automatikusan a táblákat.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+A projekt futtatásához szükséges programok:
 
-## React Compiler
+- Node.js
+- npm
+- MySQL vagy MariaDB adatbázis-kezelő
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Először a backend mappába kell belépni:
 
-## Expanding the ESLint configuration
+cd backend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+A szükséges csomagok telepítése:
+
+npm install
+
+A backend indítása:
+
+npm start
+
+A backend alapértelmezetten a következő címen fut:
+
+http://localhost:5000
+Frontend indítása
+
+Egy másik terminálban be kell lépni a frontend mappába:
+
+cd frontend
+
+A szükséges csomagok telepítése:
+
+npm install
+
+A frontend indítása:
+
+npm start
+
+Az alkalmazás ezután böngészőben megnyitható:
+
+http://localhost:3000
+
+A program használatához az adatbázisnak is futnia kell.
+A backend és a frontend külön terminálban indítandó el.
+

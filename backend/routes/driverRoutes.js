@@ -30,7 +30,7 @@ function isDnfStatus(status) {
   return true;
 }
 
-// Összes versenyző
+// összes versenyző
 router.get('/', async (req, res) => {
   try {
     const drivers = await Driver.findAll({
@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Aktuális pilóta tabella
+// aktuális pilóta tabella
 router.get('/standings/drivers', async (req, res) => {
   try {
     const standings = await DriverStanding.findAll({
@@ -112,7 +112,7 @@ router.get('/standings/drivers', async (req, res) => {
   }
 });
 
-// Aktuális pilóták több éves pontdiagramja
+// aktuális pilóták több éves pontdiagramja visszamenőleg
 router.get('/statistics/current-points', async (req, res) => {
   try {
     const existingCount = await DriverSeasonPoint.count();
@@ -163,7 +163,7 @@ router.get('/statistics/current-points', async (req, res) => {
   }
 });
 
-// Aktuális pilóták elmúlt 5 éves DNF statisztikája
+// aktuális pilóták  5 éves DNF statisztikája visszamenpleg
 router.get('/statistics/dnf-last-five-years', async (req, res) => {
   try {
     const currentYear = new Date().getFullYear();
@@ -262,7 +262,7 @@ router.get('/statistics/dnf-last-five-years', async (req, res) => {
   }
 });
 
-// Aktuális konstruktőri tabella
+// aktuális konstruktőri tabella
 router.get('/standings/constructors', async (req, res) => {
   try {
     const standings = await ConstructorStanding.findAll({

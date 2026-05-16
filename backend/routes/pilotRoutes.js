@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Pilot } = require('../models');
 
-// 1. Összes pilóta lekérése (READ ALL)
+// összes pilóta lekérése
 router.get('/', async (req, res) => {
     try {
         const pilots = await Pilot.findAll();
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// 2. Egy pilóta lekérése ID alapján (READ ONE)
+// egy pilóta lekérése ID alapján
 router.get('/:id', async (req, res) => {
     try {
         const pilot = await Pilot.findByPk(req.params.id);
@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// 3. Új pilóta felvétele (CREATE)
+// úőj pilóta felvétele
 router.post('/', async (req, res) => {
     try {
         const { name, nationality, birth_date, gender, is_active } = req.body;
@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// 4. Pilóta törlése (DELETE)
+// pilóta törlése
 router.delete('/:id', async (req, res) => {
     try {
         const deleted = await Pilot.destroy({

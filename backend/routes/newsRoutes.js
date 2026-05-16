@@ -3,7 +3,7 @@ const { NewsArticle } = require('../models');
 
 const router = express.Router();
 
-// Hírek listázása: legfrissebb elöl
+// hírek listázása a legfrissebb legyen elől
 router.get('/', async (req, res) => {
   try {
     const news = await NewsArticle.findAll({

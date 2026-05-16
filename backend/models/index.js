@@ -10,7 +10,7 @@ const ConstructorStanding = require('./ConstructorStanding');
 const DriverSeasonPoint = require('./DriverSeasonPoint');
 const NewsArticle = require('./NewsArticle');
 
-// User -> CustomerProfile
+
 User.hasOne(CustomerProfile, {
   foreignKey: 'user_id',
   as: 'profile',
